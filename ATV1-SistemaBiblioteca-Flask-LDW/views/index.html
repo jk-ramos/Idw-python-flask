@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="jumbotron bg-light p-5 rounded">
+    <h1 class="display-4">Bem-vindo à Biblioteca Digital Jaque</h1>
+    <p class="lead">Sistema de gerenciamento de livros e leitores</p>
+    <hr class="my-4">
+    <p>Navegue pelas seções usando o menu superior</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Gerenciar Leitores</h5>
+                <p class="card-text">Cadastre e visualize os leitores da biblioteca</p>
+                <a href="{{url_for('gerenciar_leitores')}}" class="btn btn-primary">Acessar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Gerenciar Livros</h5>
+                <p class="card-text">Cadastre e visualize livros do acervo</p>
+                <a href="{{url_for('gerenciar_livros')}}" class="btn btn-success">Acessar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

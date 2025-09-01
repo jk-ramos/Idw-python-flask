@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Gerenciamento de Leitores</h2>
+<p class="text-muted">Lista de leitores cadastrados na biblioteca</p>
+
+<!-- Formulário para adicionar leitor -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Cadastrar Novo Leitor</h5>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('gerenciar_leitores')}}" method="POST">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="nome_leitor" 
+                           placeholder="Nome completo do leitor" required>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Lista de leitores -->
+<div class="card">
+    <div class="card-header">
+        <h5>Leitores Cadastrados ({{leitores|length}})</h5>
+    </div>
+    <div class="card-body">
+        {% if leitores %}
+            <ul class="list-group list-group-flush">
+                {% for leitor in leitores %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{leitor}}
+                        <span class="badge bg-primary rounded-pill">{{loop.index}}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">
+                Nenhum leitor cadastrado ainda. Use o formulário acima para adicionar.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
