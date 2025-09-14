@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>🔍 Buscar Livros na API</h2>
+<p class="text-muted">Pesquise livros por título na base do Open Library</p>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form action="{{url_for('buscar_livro')}}" method="POST">
+            <div class="input-group">
+                <input type="text" class="form-control" name="termo_busca" 
+                       placeholder="Digite o título do livro..." 
+                       value="{{termo_busca}}" required>
+                <button class="btn btn-info" type="submit">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+            <small class="form-text text-muted mt-2">
+                💡 Dica: Use palavras-chave do título para melhores resultados
+            </small>
+        </form>
+    </div>
+</div>
+
+{% if request.method == 'POST' %}
+    {% if resultado is string %}
+        <!-- Se resultado for uma string, é uma mensagem de erro -->
+        <div class="alert alert-danger">
+            <strong>❌ Erro:</strong> {{resultado}}
+        </div>
+        
+        <div class="card">
+            <div class="card-body text-center">
+                <h6>Sugestões para resolver o problema:</h6>
+                <ul class="list-unstyled">
+                    <li>🔸 Verifique sua conexão com a internet</li>
+                    <li>🔸 Tente novamente em alguns segundos</li>
+                    <li>🔸 Use termos mais simples na busca</li>
+                    <li>🔸 Evite caracteres especiais</li>
+                </ul>
+            </div>
+        </div>
+        
+    {% elif resultado is not none %}
+        {% if resultado|length > 0 %}
+            <!-- Resultados encontrados -->
+            <div class="alert alert-success">
+                <strong>✅ Sucesso:</strong> {{resultado|length}} livro(s) encontrado(s) para "{{termo_busca}}"
+            </div>
+            
+            <div class="row">
+                {% for livro in resultado %}
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">{{livro.titulo}}</h6>
+                            <p class="card-text small">
+                                <strong>📝 Autor:</strong> {{livro.autor}}<br>
+                                <strong>📅 Ano:</strong> {{livro.ano}}<br>
+                                {% if livro.editora %}
+                                <strong>🏢 Editora:</strong> {{livro.editora}}<br>
+                                {% endif %}
+                                {% if livro.isbn %}
+                                <strong>📚 ISBN:</strong> <code>{{livro.isbn}}</code>
+                                {% endif %}
+                            </p>
+                            
+                            {% if livro.isbn %}
+                            <a href="{{url_for('catalogo_online', isbn=livro.isbn)}}" 
+                               class="btn btn-sm btn-primary">
+                                📖 Ver Detalhes
+                            </a>
+                            {% else %}
+                            <span class="badge bg-warning">Sem ISBN disponível</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        {% else %}
+            <!-- Nenhum resultado encontrado -->
+            <div class="alert alert-warning">
+                <strong>⚠️ Nenhum resultado:</strong> Não encontramos livros com o título "{{termo_busca}}"
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h6>💡 Dicas para melhorar sua busca:</h6>
+                    <ul>
+                        <li>Tente usar apenas palavras-chave principais do título</li>
+                        <li>Verifique a ortografia das palavras</li>
+                        <li>Use termos em português ou inglês</li>
+                        <li>Evite artigos como "o", "a", "the"</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+<!-- Seção de ajuda sempre visível -->
+<div class="card mt-4">
+    <div class="card-header bg-info text-white">
+        <h6 class="mb-0">ℹ️ Como usar a busca</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-success">✅ Exemplos que funcionam:</h6>
+                <ul class="small">
+                    <li>"Dom Casmurro"</li>
+                    <li>"Harry Potter"</li>
+                    <li>"Clean Code"</li>
+                    <li>"Pride and Prejudice"</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-danger">❌ Evite:</h6>
+                <ul class="small">
+                    <li>Títulos muito longos</li>
+                    <li>Caracteres especiais (!@#$%)</li>
+                    <li>Números de ISBN na busca por título</li>
+                    <li>Nomes de editoras</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

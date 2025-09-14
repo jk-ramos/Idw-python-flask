@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Biblioteca da Jaque</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-purple">
+        <div class="container">
+            <a class="navbar-brand" href="{{url_for('home')}}">
+                📚 Biblioteca Digital da Jaque
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{{url_for('home')}}">Início</a>
+                <a class="nav-link" href="{{url_for('gerenciar_leitores')}}">Leitores</a>
+                <a class="nav-link" href="{{url_for('gerenciar_livros')}}">Acervo Local</a>
+                <a class="nav-link" href="{{url_for('catalogo_online')}}">Catálogo Online</a>
+                <a class="nav-link" href="{{url_for('buscar_livro')}}">Buscar livros</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+    </div>
+    <footer class="footer-colorful text-center py-3 mt-5">
+    <p>&copy; 2025 Sistema de Biblioteca - Fatec Registro - Integração com APIs</p>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

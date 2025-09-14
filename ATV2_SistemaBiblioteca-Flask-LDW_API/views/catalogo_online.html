@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="catalogo-title">Catálogo Online de Livros</h2>
+<p class="text-muted">Livros populares disponíveis via API Open Library</p>
+
+<div class="row">
+    {% for livro in livros %}
+    <div class="col-md-4 mb-4">
+        <div class="card book-card h-100">
+            <div class="card-header bg-warning text-dark text-center">
+                <h6 class="card-title mb-0">📖 {{livro.titulo}}</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-2">
+                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=100&h=120&fit=crop" 
+                         alt="Livro" class="img-fluid" style="max-height: 120px; border-radius: 5px;">
+                </div>
+                <p class="card-text small">
+                    <strong>👨‍💼 Autor:</strong> {{livro.autor}}<br>
+                    <strong>📂 Categoria:</strong> {{livro.categoria}}<br>
+                    <strong>🔖 ISBN:</strong> {{livro.isbn}}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{{url_for('catalogo_online', isbn=livro.isbn)}}" 
+                   class="btn btn-primary btn-sm w-100">Ver Detalhes</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-4 text-center">
+    <a href="{{url_for('buscar_livro')}}" class="btn btn-info">
+        🔍 Buscar outros livros
+    </a>
+</div>
+
+{% endblock %}
