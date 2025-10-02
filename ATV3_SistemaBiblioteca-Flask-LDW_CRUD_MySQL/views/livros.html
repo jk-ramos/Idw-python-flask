@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>📚 Gerenciamento de Livros</h2>
+<p class="text-muted">CRUD completo do acervo da biblioteca</p>
+
+<!-- Formulário para adicionar livro -->
+<details open>
+    <summary class="btn btn-success mb-3">➕ Cadastrar Novo Livro</summary>
+    <div class="card mb-4 mt-2">
+        <div class="card-body">
+            <form action="{{url_for('gerenciar_livros')}}" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Título: *</label>
+                        <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Autor: *</label>
+                        <input type="text" class="form-control" name="autor" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Ano: *</label>
+                        <input type="number" class="form-control" name="ano" 
+                               min="1000" max="2099" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Categoria: *</label>
+                        <select class="form-select" name="categoria" required>
+                            <option value="">Selecione...</option>
+                            <option value="Literatura Brasileira">Literatura Brasileira</option>
+                            <option value="Ficção Científica">Ficção Científica</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Técnico">Técnico</option>
+                            <option value="História">História</option>
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Suspense">Suspense</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label class="form-label">ISBN:</label>
+                        <input type="text" class="form-control" name="isbn" 
+                               placeholder="Ex: 978-3-16-148410-0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Quantidade: *</label>
+                        <input type="number" class="form-control" name="quantidade" 
+                               min="0" value="1" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</details>
+
+<hr>
+
+<!-- Tabela de livros -->
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h5>📖 Acervo da Biblioteca ({{livros.total}} livros)</h5>
+    </div>
+    <div class="card-body">
+        {% if livros.items %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Ano</th>
+                            <th>Categoria</th>
+                            <th>Qtd.</th>
+                            <th>Status</th>
+                            <th style="text-align: center;" colspan="2">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for livro in livros.items %}
+                        <tr>
+                            <td>{{livro.id}}</td>
+                            <td><strong>{{livro.titulo}}</strong></td>
+                            <td>{{livro.autor}}</td>
+                            <td>{{livro.ano}}</td>
+                            <td><span class="badge bg-info">{{livro.categoria}}</span></td>
+                            <td>{{livro.quantidade}}</td>
+                            <td>
+                                {% if livro.disponivel == 'Sim' %}
+                                    <span class="badge bg-success">Disponível</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Indisponível</span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="{{url_for('editar_livro', id=livro.id)}}" 
+                                   class="btn btn-warning btn-sm">
+                                    ✏️ Editar
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="{{url_for('gerenciar_livros', id=livro.id)}}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Deseja mesmo excluir o livro {{livro.titulo}}?')">
+                                    🗑️ Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginação -->
+            <div class="mt-3 text-center">
+                {% if livros.has_prev %}
+                <a href="{{url_for('gerenciar_livros', page=livros.prev_num)}}" 
+                   class="btn btn-secondary">⬅️ Anterior</a>
+                {% endif %}
+                
+                <span class="mx-3">Página {{livros.page}} de {{livros.pages}}</span>
+                
+                {% if livros.has_next %}
+                <a href="{{url_for('gerenciar_livros', page=livros.next_num)}}" 
+                   class="btn btn-secondary">Próximo ➡️</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                ℹ️ Nenhum livro cadastrado. Use o formulário acima para adicionar.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

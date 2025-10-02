@@ -1,0 +1,89 @@
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+}
+
+.jumbotron {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.table th {
+    border-top: none;
+}
+
+.badge {
+    font-size: 0.8em;
+}
+
+footer {
+    margin-top: auto;
+}
+
+.main-container {
+    flex: 1;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.btn {
+    border-radius: 6px;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+}
+
+/* Gradiente para a navbar */
+.navbar-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Animação hover dos links da navbar */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f093fb !important;
+    transform: translateY(-1px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background: linear-gradient(90deg, #e288ec, #f093fb);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 80%;
+}
+
+/*Footer colorido */
+.footer-colorful {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+    color: white !important;
+}
+
