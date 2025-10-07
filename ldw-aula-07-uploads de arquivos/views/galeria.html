@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 style="text-align: center;">Galeria de Imagens</h2>
+    <!-- Exibindo as imagens da galeria -->
+    <hr>
+   <div class="row">
+    {% for image in images %}
+        <div class="col-3" style="margin-bottom: 20px;">
+            <img src="/static/uploads/{{ image.filename }}" class="img-fluid img-thumbnail" alt="Miniatura de Imagem" class="img-thumbnail">
+        </div>
+    {% endfor %}
+   </div>
+    <div class="container col-6">
+            <div class="col-md-4">
+                <div class="card body">
+                
+                    <form action="{{url_for('galeria')}}" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="image">Escolha uma imagem</label>
+                            <input type="file" class="form-control" name="file" required><br>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-block">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
